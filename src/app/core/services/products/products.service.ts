@@ -4,8 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from './../../models/product.model';
 
 import { environment } from './../../../../environments/environment';
-import {map} from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {map,
+        catchError} from 'rxjs/operators';
+import { Observable,
+         throwError } from 'rxjs';
 
 interface User{
   email: string;
@@ -44,6 +46,9 @@ export class ProductsService {
   getRandomUsers(): Observable<User[]>{
     return this.http.get('https://randofdfdfdmuser.me/api/?results=2')
            .pipe(
+             catchError(error => {
+               return throwError('ups algo salió mal');
+             }),
              map((response: any) => {
                return response.results as User[];
              })
