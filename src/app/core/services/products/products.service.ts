@@ -42,7 +42,7 @@ export class ProductsService {
   }
 
   getRandomUsers(): Observable<User[]>{
-    return this.http.get('https://randomuser.me/api/?results=2')
+    return this.http.get('https://randofdfdfdmuser.me/api/?results=2')
            .pipe(
              map((response: any) => {
                return response.results as User[];

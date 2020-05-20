@@ -66,9 +66,15 @@ export class ProductDetailComponent implements OnInit {
 
   getRandomUsers(){
     this.productsService.getRandomUsers()
-    .subscribe(users => {
+    .subscribe(
+      users => { //success
       console.log(users);
-    })
+      },
+      error => {
+        //bad
+        console.error(error);
+      }
+    )
   }
 
 
