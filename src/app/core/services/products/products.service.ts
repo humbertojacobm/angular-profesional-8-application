@@ -6,7 +6,8 @@ import { Product } from './../../models/product.model';
 
 import { environment } from './../../../../environments/environment';
 import {map,
-        catchError} from 'rxjs/operators';
+        catchError,
+        retry} from 'rxjs/operators';
 import { Observable,
          throwError } from 'rxjs';
 
@@ -64,6 +65,7 @@ export class ProductsService {
   getRandomUsers(): Observable<User[]>{
     return this.http.get('https://randofdfdfdmuser.me/api/?results=2')
            .pipe(
+             retry(3),
              catchError(this.handleError),
              map((response: any) => {
                return response.results as User[];
