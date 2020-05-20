@@ -76,6 +76,12 @@ export class ProductDetailComponent implements OnInit {
       }
     )
   }
-
+   //you can use a fileserver.js dependency in angular to download the file in the browser.
+  getFile(){
+    this.productsService.getFile()
+    .subscribe(content => {
+      console.log(content);
+    });
+  }
 
 }
