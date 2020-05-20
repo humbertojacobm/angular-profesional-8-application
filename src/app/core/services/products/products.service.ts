@@ -10,6 +10,8 @@ import {map,
 import { Observable,
          throwError } from 'rxjs';
 
+import * as Sentry from '@sentry/browser';
+
 interface User{
   email: string;
   gender: string;
@@ -71,6 +73,7 @@ export class ProductsService {
 
   private handleError(error: HttpErrorResponse){
     console.log(error);
+    Sentry.captureException(error);
     return throwError('ups algo salió mal;')
   }
 }
