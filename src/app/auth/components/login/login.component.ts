@@ -46,4 +46,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  loginApi(){
+    const value = this.form.value;
+    this.authService.loginRestApi(value.email, value.password)
+    .subscribe( (response) => {
+       console.log(response);
+    });
+  }
+
 }

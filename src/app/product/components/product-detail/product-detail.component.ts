@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
+import {switchMap,
+        map,
+        tap} from 'rxjs/operators';
+
 import { ProductsService } from './../../../core/services/products/products.service';
 import { Product } from './../../../core/models/product.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,7 +16,7 @@ import { Product } from './../../../core/models/product.model';
 })
 export class ProductDetailComponent implements OnInit {
 
-  product: Product;
+  product$: Observable<Product>;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,18 +24,12 @@ export class ProductDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      const id = params.id;
-      this.fetchProduct(id);
-      // this.product = this.productsService.getProduct(id);
-    });
-  }
-
-  fetchProduct(id: string) {
-    this.productsService.getProduct(id)
-    .subscribe(product => {
-      this.product = product;
-    });
+    this.product$=this.route.params
+                  .pipe(
+                    switchMap((params: Params) => {
+                      return this.productsService.getProduct(params.id);
+                    })
+                  );
   }
 
   createProduct() {
@@ -62,6 +61,26 @@ export class ProductDetailComponent implements OnInit {
     this.productsService.deleteProduct('222')
     .subscribe(rta => {
       console.log(rta);
+    });
+  }
+
+  getRandomUsers(){
+    this.productsService.getRandomUsers()
+    .subscribe(
+      users => { //success
+      console.log(users);
+      },
+      error => {
+        //bad
+        console.error(error);
+      }
+    )
+  }
+   //you can use a fileserver.js dependency in angular to download the file in the browser.
+  getFile(){
+    this.productsService.getFile()
+    .subscribe(content => {
+      console.log(content);
     });
   }
 
